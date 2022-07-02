@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Task Manager-->
+        <!--Task Manager perfect-->
         <scene sceneID="JWQ-it-COy">
             <objects>
                 <tableViewController id="YJE-r9-38K" customClass="TaskManagerViewController" customModule="Task_manager" customModuleProvider="target" sceneMemberID="viewController">
@@ -30,7 +30,7 @@
                             <outlet property="delegate" destination="YJE-r9-38K" id="Ehw-Nh-qM3"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Task Manager" id="btd-Pf-e3f">
+                    <navigationItem key="navigationItem" title="Task Manager perfect" id="btd-Pf-e3f">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wMp-uW-J6b">
                             <color key="tintColor" systemColor="labelColor"/>
                             <connections>
