@@ -12,8 +12,14 @@ class TaskManagerViewController: UITableViewController {
     
     var itemArray = [Item]()
     
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        print(dataFilePath)
         
         let newItem = Item()
         newItem.title = "One"
@@ -26,8 +32,6 @@ class TaskManagerViewController: UITableViewController {
         let newItem3 = Item()
         newItem3.title = "Three"
         itemArray.append(newItem3)
-        
-        print("Hello world")
     }
     
     //MARK: - TableView Datasource Methods
@@ -60,7 +64,7 @@ class TaskManagerViewController: UITableViewController {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done                          //Reversing for check on/off
         
-        tableView.reloadData()                                                                  //Reloads data IRL* for correct displaying
+        saveItems()
         
         // deselect cell after click on it
         tableView.deselectRow(at: indexPath, animated: true)
@@ -80,7 +84,7 @@ class TaskManagerViewController: UITableViewController {
             newItem.title = textField.text!                         // Getting text of item to Item()
             newItem.done = false                                    // Getting property done of iten to Item()
             self.itemArray.append(newItem)                          // Adding new item to itemArray.
-            self.tableView.reloadData()                             //Reloads data IRT*
+            self.saveItems()                                        // Call function for save items.
         }
         alert.addTextField { (alertTextField) in                    //What will be printed in text field
             alertTextField.placeholder = "Create new item"          //Gray text in text field
@@ -91,6 +95,20 @@ class TaskManagerViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    //MARK: - Model manipulation methods.
+    
+    func saveItems() {
+        
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("Error encoding item array, \(error)")
+        }
+        tableView.reloadData()
+    }
     
 }
 
