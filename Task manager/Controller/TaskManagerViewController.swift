@@ -89,7 +89,7 @@ class TaskManagerViewController: UITableViewController {
         let encoder = PropertyListEncoder()                         // Initializing An object that encodes instances of data types to a property list.
         do {                                                        // Because .encode and .write throws an error we need do-catch block here.
             let data = try encoder.encode(itemArray)                // Also we must type "try" because it throws an error.
-            try data.write(to: dataFilePath!)
+            try data.write(to: dataFilePath!)                       // Also we must type "try" because it throws an error.
         } catch {
             print("Error encoding item array, \(error)")
         }
