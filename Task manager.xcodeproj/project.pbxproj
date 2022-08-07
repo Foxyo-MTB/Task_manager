@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		744EF09D289860BC002AB393 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744EF09C289860BC002AB393 /* Item.swift */; };
+		7404770228A00392009E5EC6 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7404770028A00392009E5EC6 /* DataModel.xcdatamodeld */; };
 		74AE5FA4286F1F1E00719A9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA3286F1F1E00719A9E /* AppDelegate.swift */; };
 		74AE5FA6286F1F1E00719A9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA5286F1F1E00719A9E /* SceneDelegate.swift */; };
 		74AE5FA8286F1F1E00719A9E /* TaskManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA7286F1F1E00719A9E /* TaskManagerViewController.swift */; };
@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		744EF09C289860BC002AB393 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Item.swift; path = "Task manager/Model/Item.swift"; sourceTree = "<group>"; };
+		7404770128A00392009E5EC6 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		74AE5FA0286F1F1E00719A9E /* Task manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74AE5FA3286F1F1E00719A9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74AE5FA5286F1F1E00719A9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		744EF09E289860C0002AB393 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				744EF09C289860BC002AB393 /* Item.swift */,
+				7404770028A00392009E5EC6 /* DataModel.xcdatamodeld */,
 			);
 			name = Model;
 			path = ..;
@@ -177,9 +177,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				744EF09D289860BC002AB393 /* Item.swift in Sources */,
 				74AE5FA8286F1F1E00719A9E /* TaskManagerViewController.swift in Sources */,
 				74AE5FA4286F1F1E00719A9E /* AppDelegate.swift in Sources */,
+				7404770228A00392009E5EC6 /* DataModel.xcdatamodeld in Sources */,
 				74AE5FAE286F1F1E00719A9E /* Task_manager.xcdatamodeld in Sources */,
 				74AE5FA6286F1F1E00719A9E /* SceneDelegate.swift in Sources */,
 			);
@@ -402,6 +402,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		7404770028A00392009E5EC6 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7404770128A00392009E5EC6 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 7404770128A00392009E5EC6 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		74AE5FAC286F1F1E00719A9E /* Task_manager.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

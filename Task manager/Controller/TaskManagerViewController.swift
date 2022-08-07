@@ -6,14 +6,19 @@
 //
 
 import UIKit
+import CoreData
+
 
 class TaskManagerViewController: UITableViewController {
     
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext                                               //Because CoreData is in AppDelegate we need to grab data from there. We need object - UIApplication is that object. We downcast it as AppDelegate because file is AppDelegate. We use viewContext in persistentContainer attribute.
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")) //Location of .plist file for userDefaults saving items.
         
         loadItems()
         
@@ -44,6 +49,9 @@ class TaskManagerViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
+        
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done                          //Reversing for check on/off.
         saveItems()                                                                             // Calling function to save data.
         tableView.deselectRow(at: indexPath, animated: true)                                    // deselect cell after click on it
@@ -58,15 +66,15 @@ class TaskManagerViewController: UITableViewController {
         let alert = UIAlertController(title: "Add new item", message: "", preferredStyle: .alert) //Creating Alert frame
         let action = UIAlertAction(title: "Add item", style: .default) { (action) in //Creating button "Add item"
             //What will happen when pressed
-            let newItem = Item()                                    // Initializating our new item as Item class item =)
+            let newItem = Item(context: self.context)               // Initializating our new item as Item class item =)
             newItem.title = textField.text!                         // Getting text of item to Item()
             newItem.done = false                                    // Getting property done of iten to Item()
             self.itemArray.append(newItem)                          // Adding new item to itemArray.
             self.saveItems()                                        // Call function for save items.
         }
-        alert.addTextField { (alertTextField) in                    // What will be printed in text field
-            alertTextField.placeholder = "Create new item"          // Gray text in text field
-            textField = alertTextField                              // Store what printed in textField variably
+        alert.addTextField { (alertTextField) in                    // What will be printed in text field.
+            alertTextField.placeholder = "Create new item"          // Gray text in text field.
+            textField = alertTextField                              // Store what printed in textField variably.
         }
         alert.addAction(action)                                     // Creating button "Add button"
         present(alert, animated: true, completion: nil)             // Show adding window.
@@ -77,26 +85,20 @@ class TaskManagerViewController: UITableViewController {
     
     func saveItems() {
         
-        let encoder = PropertyListEncoder()                         // Initializing An object that encodes instances of data types to a property list.
-        do {                                                        // Because .encode and .write throws an error we need do-catch block here.
-            let data = try encoder.encode(itemArray)                // Also we must type "try" because it throws an error.
-            try data.write(to: dataFilePath!)                       // Also we must type "try" because it throws an error.
+        do {
+            try context.save()                                      // Do-catch block for .save because this method throws an error.
         } catch {
-            print("Error encoding item array, \(error)")
+            print("Error saving context, \(error)")
         }
-        tableView.reloadData()                                      // Shows data IRL on screen
+        tableView.reloadData()                                      // Shows data IRL on screen.
     }
     
     func loadItems() {
-        
-        if let data = try? Data(contentsOf: dataFilePath!) {                    // Creating constant that has our data storaged in .plis file - dataFilePath.
-            let decoder = PropertyListDecoder()                                 // To represent data we need to decode it. Same as in saveItems function.
-            do {                                                                // Because decoder.decode can throw, we need to place it in do-catch block.
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("Error decoding item array, \(error)")
-            }
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context, \(error)")
         }
     }
-    
 }
