@@ -18,13 +18,13 @@ class TaskManagerViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")) //Location of .plist file for userDefaults saving items.
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
         
         loadItems()
         
     }
     
-    //MARK: - TableView Datasource Methods
+    //MARK: - TableView Datasource Methods.
     // Return the number of rows for the table.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -45,12 +45,12 @@ class TaskManagerViewController: UITableViewController {
         
     }
     
-    //MARK: - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods.
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        context.delete(itemArray[indexPath.row])
-//        itemArray.remove(at: indexPath.row)
+        //        context.delete(itemArray[indexPath.row])
+        //        itemArray.remove(at: indexPath.row)
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done                          //Reversing for check on/off.
         saveItems()                                                                             // Calling function to save data.
@@ -93,12 +93,38 @@ class TaskManagerViewController: UITableViewController {
         tableView.reloadData()                                      // Shows data IRL on screen.
     }
     
-    func loadItems() {
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {            // With - external parameter, request - internal parameter. = Item.fetchRequest() is a default value here.
+        //let request : NSFetchRequest<Item> = Item.fetchRequest()    // Specifying type of request, because a lot of different data fetches. <Return an array of items> - meaning. Commented after refactoring code and adding external/internal parameter.
         do {
-            itemArray = try context.fetch(request)
+            itemArray = try context.fetch(request)                  // Do-catch block for .fetch because this method throws an error.
         } catch {
             print("Error fetching data from context, \(error)")
+        }
+        tableView.reloadData()
+    }
+}
+
+//MARK: - Search bar methods.
+
+extension TaskManagerViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if searchBar.text?.count != 0 {                                                                 // Won't search empty field.
+            let request : NSFetchRequest<Item> = Item.fetchRequest()                                    // Specifying type of request, because a lot of different data fetches. <Return an array of items> - meaning.
+            let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)               // We will filter with this line of code. It says "title CONTAINS -from searchBar.text!-. "title CONTAINS[cd] %@" = how we want to query. [cd] - case and diacritic insensitive.
+            request.predicate = predicate                                                               // Adding our query to our request.
+            let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)                        // Creating sort descriptor. How we will sort.
+            request.sortDescriptors = [sortDescriptor]                                                  // Adding sort descriptor to our request. This property is plural because it expects an array of descriptors. In our case it's just one descriptor - single sort rule.
+            loadItems(with: request)                                                                    // Loading items after searching.
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+            DispatchQueue.main.async {                                                                  // DispatchQueue - is the tool to help us do another threads to do job parallel. Main - means main thread. async  - do it ascynchronously.
+                searchBar.resignFirstResponder()
+            }
         }
     }
 }
