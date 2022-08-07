@@ -15,17 +15,8 @@ class TaskManagerViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let newItem = Item()
-        newItem.title = "One"
-        itemArray.append(newItem)
+        loadItems()
         
-        let newItem2 = Item()
-        newItem2.title = "Two"
-        itemArray.append(newItem2)
-        
-        let newItem3 = Item()
-        newItem3.title = "Three"
-        itemArray.append(newItem3)
     }
     
     //MARK: - TableView Datasource Methods
@@ -96,5 +87,16 @@ class TaskManagerViewController: UITableViewController {
         tableView.reloadData()                                      // Shows data IRL on screen
     }
     
+    func loadItems() {
+        
+        if let data = try? Data(contentsOf: dataFilePath!) {                    // Creating constant that has our data storaged in .plis file - dataFilePath.
+            let decoder = PropertyListDecoder()                                 // To represent data we need to decode it. Same as in saveItems function.
+            do {                                                                // Because decoder.decode can throw, we need to place it in do-catch block.
+                itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Error decoding item array, \(error)")
+            }
+        }
+    }
+    
 }
-
