@@ -12,6 +12,11 @@ import CoreData
 class TaskManagerViewController: UITableViewController {
     
     var itemArray = [Item]()
+    var selectedCategory : Categories? {
+        didSet{
+            loadItems()
+        }
+    }
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext                                               //Because CoreData is in AppDelegate we need to grab data from there. We need object - UIApplication is that object. We downcast it as AppDelegate because file is AppDelegate. We use viewContext in persistentContainer attribute.
     
     
@@ -20,7 +25,6 @@ class TaskManagerViewController: UITableViewController {
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
         
-        loadItems()
         
     }
     
@@ -37,7 +41,7 @@ class TaskManagerViewController: UITableViewController {
         // Fetch a cell of the appropriate type.
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskManagerCell", for: indexPath)     // Creating cell. Returns a reusable table-view cell object for the specified reuse identifier and adds it to the table.
         let item = itemArray[indexPath.row]                                                             // Creating new constant to minimize code.
-        cell.textLabel?.text = item.title                                                               // Text of Item.title goes to cell
+        cell.textLabel?.text = item.title                                                               // Text of Item.title goes to cell.
         //Ternary operator ==>
         // value = condition ? valueIfTrue : valueIfFalse
         cell.accessoryType = item.done ? .checkmark : .none                                             // Setting cell accessory checkmark or none.
@@ -54,7 +58,7 @@ class TaskManagerViewController: UITableViewController {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done                          //Reversing for check on/off.
         saveItems()                                                                             // Calling function to save data.
-        tableView.deselectRow(at: indexPath, animated: true)                                    // deselect cell after click on it
+        tableView.deselectRow(at: indexPath, animated: true)                                    // deselect cell after click on it.
         
     }
     
@@ -63,12 +67,13 @@ class TaskManagerViewController: UITableViewController {
     @IBAction func addNewItem(_ sender: UIBarButtonItem) {
         
         var textField = UITextField()
-        let alert = UIAlertController(title: "Add new item", message: "", preferredStyle: .alert) //Creating Alert frame
-        let action = UIAlertAction(title: "Add item", style: .default) { (action) in //Creating button "Add item"
+        let alert = UIAlertController(title: "Add new item", message: "", preferredStyle: .alert) //Creating Alert frame.
+        let action = UIAlertAction(title: "Add item", style: .default) { (action) in //Creating button "Add item".
             //What will happen when pressed
-            let newItem = Item(context: self.context)               // Initializating our new item as Item class item =)
-            newItem.title = textField.text!                         // Getting text of item to Item()
-            newItem.done = false                                    // Getting property done of iten to Item()
+            let newItem = Item(context: self.context)               // Initializating our new item as Item class item =).
+            newItem.title = textField.text!                         // Getting text of item to Item().
+            newItem.done = false                                    // Getting property done of iten to Item().
+            newItem.parentCategory = self.selectedCategory          // Setting category for created item to correct display in right category.
             self.itemArray.append(newItem)                          // Adding new item to itemArray.
             self.saveItems()                                        // Call function for save items.
         }
@@ -76,7 +81,7 @@ class TaskManagerViewController: UITableViewController {
             alertTextField.placeholder = "Create new item"          // Gray text in text field.
             textField = alertTextField                              // Store what printed in textField variably.
         }
-        alert.addAction(action)                                     // Creating button "Add button"
+        alert.addAction(action)                                     // Creating button "Add button".
         present(alert, animated: true, completion: nil)             // Show adding window.
         
     }
@@ -93,10 +98,16 @@ class TaskManagerViewController: UITableViewController {
         tableView.reloadData()                                      // Shows data IRL on screen.
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {            // With - external parameter, request - internal parameter. = Item.fetchRequest() is a default value here.
-        //let request : NSFetchRequest<Item> = Item.fetchRequest()    // Specifying type of request, because a lot of different data fetches. <Return an array of items> - meaning. Commented after refactoring code and adding external/internal parameter.
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {                   // With - external parameter, request - internal parameter. = Item.fetchRequest() is a default value here. Same for predicate.
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)                  // Here we filter Items list to display filtered results that matches category we select.
+        if let additionalPredicate = predicate {                                                                                // Functionallity that allows us to display correct items in each category and search filters in each category.
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
         do {
-            itemArray = try context.fetch(request)                  // Do-catch block for .fetch because this method throws an error.
+            itemArray = try context.fetch(request)                                                                              // Do-catch block for .fetch because this method throws an error.
         } catch {
             print("Error fetching data from context, \(error)")
         }
@@ -115,7 +126,7 @@ extension TaskManagerViewController: UISearchBarDelegate {
             request.predicate = predicate                                                               // Adding our query to our request.
             let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)                        // Creating sort descriptor. How we will sort.
             request.sortDescriptors = [sortDescriptor]                                                  // Adding sort descriptor to our request. This property is plural because it expects an array of descriptors. In our case it's just one descriptor - single sort rule.
-            loadItems(with: request)                                                                    // Loading items after searching.
+            loadItems(with: request, predicate: predicate)                                                                    // Loading items after searching.
         }
     }
     
