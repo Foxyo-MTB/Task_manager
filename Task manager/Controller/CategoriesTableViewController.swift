@@ -15,7 +15,6 @@ class CategoriesTableViewController: SwipeTableViewController{                  
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 80
         loadCategories()
         
     }
@@ -49,7 +48,7 @@ class CategoriesTableViewController: SwipeTableViewController{                  
         do {
             try context.save()                                      // Do-catch block for .save because this method throws an error.
         } catch {
-            print("Error saving context, \(error)")
+            print("lololoError saving context, \(error)")
         }
         tableView.reloadData()                                      // Shows data IRL on screen.
     }
@@ -69,7 +68,11 @@ class CategoriesTableViewController: SwipeTableViewController{                  
     override func updateModel(at indexPath: IndexPath) {
         self.context.delete(self.categoriesArray[indexPath.row])
         self.categoriesArray.remove(at: indexPath.row)
-        self.saveCategories()
+        do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+            try context.save()
+        } catch {
+            print(error)
+        }
     }
     
     

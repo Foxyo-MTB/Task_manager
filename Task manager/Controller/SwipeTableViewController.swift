@@ -9,9 +9,10 @@ import UIKit
 import SwipeCellKit
 
 class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegate {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80.0
     }
     
     //MARK: - TableView Datasource Methods
@@ -19,18 +20,17 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Creating a prototype cell for any child class.
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SwipeTableViewCell              // Creating cell. Returns a reusable table-view cell object for the specified reuse identifier and adds it to the table. Downcast it to SwipeCellKit.
-                                        
-        cell.delegate = self                                                                                                 // Implementing delegate.
+        
+        cell.delegate = self                                                     // Implementing delegate.
         
         return cell
     }
-  
+    
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {            // Delegate method from SwipeCellKit documentation.
         guard orientation == .right else { return nil }
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            print("delete cell")
             // Deleting itself.
             self.updateModel(at: indexPath)
         }
@@ -40,11 +40,13 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         return [deleteAction]
     }
     
-//        func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {       // Deleting via swiping from right to left.
-//            var options = SwipeOptions()
-//            options.expansionStyle = .destructive
-//            return options
-//        }
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        
+        return options
+    }
+    
     
     func updateModel(at indexPath: IndexPath) {
         // Updata Data Model.

@@ -22,7 +22,6 @@ class TaskManagerViewController: SwipeTableViewController {                     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 80
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
         
         
@@ -39,7 +38,7 @@ class TaskManagerViewController: SwipeTableViewController {                     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)                                                            
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let item = itemArray[indexPath.row]                                                             // Creating new constant to minimize code.
         cell.textLabel?.text = item.title                                                               // Text of Item.title goes to cell.
         //Ternary operator ==>
@@ -118,7 +117,11 @@ class TaskManagerViewController: SwipeTableViewController {                     
     override func updateModel(at indexPath: IndexPath) {
         self.context.delete(self.itemArray[indexPath.row])
         self.itemArray.remove(at: indexPath.row)
-        self.saveItems()
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
     }
 }
 
