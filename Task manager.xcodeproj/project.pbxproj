@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7404770228A00392009E5EC6 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7404770028A00392009E5EC6 /* DataModel.xcdatamodeld */; };
 		7482F72D28A512DE0024B00A /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7482F72C28A512DE0024B00A /* CategoriesTableViewController.swift */; };
+		748819B828A6819D00A6D1D7 /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748819B728A6819D00A6D1D7 /* SwipeTableViewController.swift */; };
 		74AE5FA4286F1F1E00719A9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA3286F1F1E00719A9E /* AppDelegate.swift */; };
 		74AE5FA6286F1F1E00719A9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA5286F1F1E00719A9E /* SceneDelegate.swift */; };
 		74AE5FA8286F1F1E00719A9E /* TaskManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA7286F1F1E00719A9E /* TaskManagerViewController.swift */; };
@@ -24,6 +25,7 @@
 		1C1930DC9D6BA183289037E1 /* Pods-Task manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task manager.debug.xcconfig"; path = "Target Support Files/Pods-Task manager/Pods-Task manager.debug.xcconfig"; sourceTree = "<group>"; };
 		7404770128A00392009E5EC6 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		7482F72C28A512DE0024B00A /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
+		748819B728A6819D00A6D1D7 /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
 		74AE5FA0286F1F1E00719A9E /* Task manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74AE5FA3286F1F1E00719A9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74AE5FA5286F1F1E00719A9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,8 +61,9 @@
 		744EF09B289860A7002AB393 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				74AE5FA7286F1F1E00719A9E /* TaskManagerViewController.swift */,
+				748819B728A6819D00A6D1D7 /* SwipeTableViewController.swift */,
 				7482F72C28A512DE0024B00A /* CategoriesTableViewController.swift */,
+				74AE5FA7286F1F1E00719A9E /* TaskManagerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -130,7 +133,6 @@
 				1C1930DC9D6BA183289037E1 /* Pods-Task manager.debug.xcconfig */,
 				A0BD78FD5723D481A9E53D18 /* Pods-Task manager.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -252,6 +254,7 @@
 				74AE5FA8286F1F1E00719A9E /* TaskManagerViewController.swift in Sources */,
 				74AE5FA4286F1F1E00719A9E /* AppDelegate.swift in Sources */,
 				7404770228A00392009E5EC6 /* DataModel.xcdatamodeld in Sources */,
+				748819B828A6819D00A6D1D7 /* SwipeTableViewController.swift in Sources */,
 				7482F72D28A512DE0024B00A /* CategoriesTableViewController.swift in Sources */,
 				74AE5FAE286F1F1E00719A9E /* Task_manager.xcdatamodeld in Sources */,
 				74AE5FA6286F1F1E00719A9E /* SceneDelegate.swift in Sources */,

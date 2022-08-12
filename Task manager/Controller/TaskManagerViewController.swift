@@ -7,10 +7,9 @@
 
 import UIKit
 import CoreData
-import SwipeCellKit
 
 
-class TaskManagerViewController: UITableViewController {
+class TaskManagerViewController: SwipeTableViewController {                                               // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
     var itemArray = [Item]()
     var selectedCategory : Categories? {
@@ -40,8 +39,7 @@ class TaskManagerViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskManagerCell", for: indexPath) as! SwipeTableViewCell              // Creating cell. Returns a reusable table-view cell object for the specified reuse identifier and adds it to the table. Downcast it for SwipeCellKit.
-        cell.delegate = self                                                                            // Implementing delegate for cell.
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)                                                            
         let item = itemArray[indexPath.row]                                                             // Creating new constant to minimize code.
         cell.textLabel?.text = item.title                                                               // Text of Item.title goes to cell.
         //Ternary operator ==>
@@ -116,6 +114,12 @@ class TaskManagerViewController: UITableViewController {
         }
         tableView.reloadData()
     }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        self.context.delete(self.itemArray[indexPath.row])
+        self.itemArray.remove(at: indexPath.row)
+        self.saveItems()
+    }
 }
 
 //MARK: - Search bar methods.
@@ -143,26 +147,4 @@ extension TaskManagerViewController: UISearchBarDelegate {
     }
 }
 
-//MARK: - Extension for SwipeCellKit Delegate.
 
-extension TaskManagerViewController: SwipeTableViewCellDelegate {
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {            // Delegate method from SwipeCellKit documentation.
-        guard orientation == .right else { return nil }
-        
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            if let categoryForDeletion = self.itemArray[indexPath.row] {                                                                                        // Deleting itself.
-                self.context.delete(self.itemArray[indexPath.row])
-                self.itemArray.remove(at: indexPath.row)
-            } else {
-                print("Error deleting category")
-            }
-            tableView.reloadData()
-        }
-        // customize the action appearance
-        deleteAction.image = UIImage(named: "Delete-icon")                                                                                                      // Adding to Assets new icon and using it for display.
-        
-        return [deleteAction]
-    }
-    
-}

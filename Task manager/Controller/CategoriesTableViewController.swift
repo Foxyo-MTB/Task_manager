@@ -7,9 +7,8 @@
 
 import UIKit
 import CoreData
-import SwipeCellKit
 
-class CategoriesTableViewController: UITableViewController{
+class CategoriesTableViewController: SwipeTableViewController{                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
     var categoriesArray = [Categories]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext   //Because CoreData is in AppDelegate we need to grab data from there. We need object - UIApplication is that object. We downcast it as AppDelegate because file is AppDelegate. We use viewContext in persistentContainer attribute.
@@ -32,8 +31,7 @@ class CategoriesTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoriesCell", for: indexPath) as! SwipeTableViewCell              // Creating cell. Returns a reusable table-view cell object for the specified reuse identifier and adds it to the table. Downcast it to SwipeCellKit.
-        cell.delegate = self                                                                                    // Implementing delegate.
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)                                          // Creating cell using super view. From SwipeTableViewController class.
         let category = categoriesArray[indexPath.row]                                                           // Creating new constant to minimize code.
         cell.textLabel?.text = category.name                                                                    // Text of categories.name goes to cell.
         
@@ -64,6 +62,14 @@ class CategoriesTableViewController: UITableViewController{
             print("Error fetching data from context, \(error)")
         }
         tableView.reloadData()
+    }
+    
+    //MARK: - Delete Data from Swipe.
+    
+    override func updateModel(at indexPath: IndexPath) {
+        self.context.delete(self.categoriesArray[indexPath.row])
+        self.categoriesArray.remove(at: indexPath.row)
+        self.saveCategories()
     }
     
     
@@ -104,32 +110,6 @@ class CategoriesTableViewController: UITableViewController{
             destinationVC.selectedCategory = categoriesArray[indexPath.row]
         }
     }
-    
-    
-    
 }
 
-//MARK: - Extension for SwipeCell Delegate.
 
-extension CategoriesTableViewController: SwipeTableViewCellDelegate {
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {            // Delegate method from SwipeCellKit documentation.
-        guard orientation == .right else { return nil }
-        
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            if let categoryForDeletion = self.categoriesArray[indexPath.row] {                                                                                  // Deleting itself.
-                self.context.delete(self.categoriesArray[indexPath.row])
-                self.categoriesArray.remove(at: indexPath.row)
-            } else {
-                print("Error deleting category")
-            }
-            tableView.reloadData()
-        }
-        
-        // customize the action appearance
-        deleteAction.image = UIImage(named: "Delete-icon")                                                                                                      // Adding to Assets new icon and using it for display.
-        
-        return [deleteAction]
-    }
-    
-}
