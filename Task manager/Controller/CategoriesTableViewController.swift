@@ -7,15 +7,16 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
-class CategoriesTableViewController: UITableViewController {
+class CategoriesTableViewController: UITableViewController{
     
     var categoriesArray = [Categories]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext   //Because CoreData is in AppDelegate we need to grab data from there. We need object - UIApplication is that object. We downcast it as AppDelegate because file is AppDelegate. We use viewContext in persistentContainer attribute.
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.rowHeight = 80
         loadCategories()
         
     }
@@ -31,16 +32,18 @@ class CategoriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoriesCell", for: indexPath)              // Creating cell. Returns a reusable table-view cell object for the specified reuse identifier and adds it to the table.
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoriesCell", for: indexPath) as! SwipeTableViewCell              // Creating cell. Returns a reusable table-view cell object for the specified reuse identifier and adds it to the table. Downcast it to SwipeCellKit.
+        cell.delegate = self                                                                                    // Implementing delegate.
         let category = categoriesArray[indexPath.row]                                                           // Creating new constant to minimize code.
         cell.textLabel?.text = category.name                                                                    // Text of categories.name goes to cell.
+        
         return cell
         
     }
     
-
-
-
+    
+    
+    
     //MARK: - Data Manipulation Methods
     
     func saveCategories() {
@@ -102,5 +105,31 @@ class CategoriesTableViewController: UITableViewController {
         }
     }
     
+    
+    
+}
+
+//MARK: - Extension for SwipeCell Delegate.
+
+extension CategoriesTableViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {            // Delegate method from SwipeCellKit documentation.
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            if let categoryForDeletion = self.categoriesArray[indexPath.row] {                                                                                  // Deleting itself.
+                self.context.delete(self.categoriesArray[indexPath.row])
+                self.categoriesArray.remove(at: indexPath.row)
+            } else {
+                print("Error deleting category")
+            }
+            tableView.reloadData()
+        }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "Delete-icon")                                                                                                      // Adding to Assets new icon and using it for display.
+        
+        return [deleteAction]
+    }
     
 }
