@@ -8,7 +8,6 @@
 import UIKit
 import CoreData
 
-
 class TaskManagerViewController: SwipeTableViewController {                                               // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
     var itemArray = [Item]()
@@ -23,9 +22,12 @@ class TaskManagerViewController: SwipeTableViewController {                     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
-        
+        navigationTitleOutlet.title =  selectedCategory?.name
         
     }
+
+    @IBOutlet weak var navigationTitleOutlet: UINavigationItem!
+    
     
     //MARK: - TableView Datasource Methods.
     // Return the number of rows for the table.
