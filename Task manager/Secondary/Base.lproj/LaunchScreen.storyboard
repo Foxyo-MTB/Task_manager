@@ -21,42 +21,43 @@
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jp4-fH-4Zz">
-                                <rect key="frame" x="14" y="94" width="400" height="250"/>
+                                <rect key="frame" x="8" y="44" width="420" height="848"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phX-uh-NaI">
-                                        <rect key="frame" x="45" y="86" width="324" height="66"/>
-                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="55"/>
-                                        <color key="textColor" name="LaunchScreenTextColor"/>
-                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by Foxyo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqh-Cd-LGJ">
-                                        <rect key="frame" x="301" y="158" width="68" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" name="LaunchScreenTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8uh-yN-hv2">
+                                        <rect key="frame" x="91.333333333333314" y="386" width="237.66666666666669" height="76.333333333333314"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phX-uh-NaI">
+                                                <rect key="frame" x="0.0" y="0.0" width="237.66666666666666" height="48"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="40"/>
+                                                <color key="textColor" name="LaunchScreenTextColor"/>
+                                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by Foxyo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqh-Cd-LGJ">
+                                                <rect key="frame" x="169.66666666666669" y="56.000000000000007" width="68" height="20.333333333333336"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" name="LaunchScreenTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="400" id="5OB-EV-vzU"/>
-                                    <constraint firstItem="tqh-Cd-LGJ" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="phX-uh-NaI" secondAttribute="trailing" id="8RD-Rl-778"/>
-                                    <constraint firstAttribute="bottom" secondItem="tqh-Cd-LGJ" secondAttribute="bottom" constant="71" id="94b-Sg-XT6"/>
-                                    <constraint firstAttribute="height" constant="250" id="9sx-IU-Hlz"/>
-                                    <constraint firstItem="phX-uh-NaI" firstAttribute="leading" secondItem="jp4-fH-4Zz" secondAttribute="leading" constant="45" id="Pfj-4y-oKB"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tqh-Cd-LGJ" secondAttribute="trailing" constant="20" symbolic="YES" id="cn2-vO-gyn"/>
-                                    <constraint firstItem="tqh-Cd-LGJ" firstAttribute="leading" secondItem="jp4-fH-4Zz" secondAttribute="leading" constant="301" id="f5e-Wg-7PN"/>
-                                    <constraint firstItem="tqh-Cd-LGJ" firstAttribute="top" secondItem="phX-uh-NaI" secondAttribute="bottom" constant="6" id="vZS-Pj-9fq"/>
+                                    <constraint firstItem="8uh-yN-hv2" firstAttribute="centerY" secondItem="jp4-fH-4Zz" secondAttribute="centerY" id="Wvb-cI-QNe"/>
+                                    <constraint firstItem="8uh-yN-hv2" firstAttribute="centerX" secondItem="jp4-fH-4Zz" secondAttribute="centerX" id="v7w-bm-Olk"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fsU-9R-SzV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="1zp-py-YTM" secondAttribute="bottom" id="DP3-Em-9ix"/>
-                            <constraint firstItem="1zp-py-YTM" firstAttribute="top" secondItem="9LL-DH-T3R" secondAttribute="top" id="IKF-fW-GG1"/>
-                            <constraint firstItem="1zp-py-YTM" firstAttribute="leading" secondItem="9LL-DH-T3R" secondAttribute="leading" id="SCY-zh-GB8"/>
-                            <constraint firstItem="jp4-fH-4Zz" firstAttribute="top" secondItem="fsU-9R-SzV" secondAttribute="top" constant="50" id="e1w-cR-eYE"/>
-                            <constraint firstItem="1zp-py-YTM" firstAttribute="trailing" secondItem="9LL-DH-T3R" secondAttribute="trailing" id="hHC-1S-4jq"/>
-                            <constraint firstItem="jp4-fH-4Zz" firstAttribute="centerX" secondItem="9LL-DH-T3R" secondAttribute="centerX" id="jPf-ly-c9E"/>
+                            <constraint firstItem="1zp-py-YTM" firstAttribute="leading" secondItem="9LL-DH-T3R" secondAttribute="leading" id="3yE-ss-Di1"/>
+                            <constraint firstItem="jp4-fH-4Zz" firstAttribute="top" secondItem="fsU-9R-SzV" secondAttribute="top" id="6jS-jA-Rvs"/>
+                            <constraint firstItem="1zp-py-YTM" firstAttribute="top" secondItem="9LL-DH-T3R" secondAttribute="top" id="ATz-Th-P7c"/>
+                            <constraint firstAttribute="bottom" secondItem="1zp-py-YTM" secondAttribute="bottom" id="CWM-Sa-SBc"/>
+                            <constraint firstItem="1zp-py-YTM" firstAttribute="trailing" secondItem="9LL-DH-T3R" secondAttribute="trailing" id="dy4-BH-Xja"/>
+                            <constraint firstItem="fsU-9R-SzV" firstAttribute="bottom" secondItem="jp4-fH-4Zz" secondAttribute="bottom" id="fHN-xd-6Ro"/>
+                            <constraint firstItem="jp4-fH-4Zz" firstAttribute="leading" secondItem="fsU-9R-SzV" secondAttribute="leading" constant="8" id="g3Z-S3-rVq"/>
+                            <constraint firstItem="fsU-9R-SzV" firstAttribute="trailing" secondItem="jp4-fH-4Zz" secondAttribute="trailing" id="oND-ml-tIe"/>
                         </constraints>
                     </view>
                 </viewController>
