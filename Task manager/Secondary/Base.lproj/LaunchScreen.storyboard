@@ -24,7 +24,7 @@
                                 <rect key="frame" x="8" y="44" width="420" height="848"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8uh-yN-hv2">
-                                        <rect key="frame" x="91.333333333333314" y="386" width="237.66666666666669" height="76.333333333333314"/>
+                                        <rect key="frame" x="91.333333333333329" y="386" width="237.66666666666669" height="76.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phX-uh-NaI">
                                                 <rect key="frame" x="0.0" y="0.0" width="237.66666666666666" height="48"/>

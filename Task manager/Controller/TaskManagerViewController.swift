@@ -10,6 +10,7 @@ import CoreData
 
 class TaskManagerViewController: SwipeTableViewController {                                               // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
+    var itemFilled = ""
     var itemArray = [Item]()
     var selectedCategory : Categories? {
         didSet{
@@ -25,7 +26,7 @@ class TaskManagerViewController: SwipeTableViewController {                     
         navigationTitleOutlet.title =  selectedCategory?.name
         
     }
-
+    
     @IBOutlet weak var navigationTitleOutlet: UINavigationItem!
     
     
@@ -74,6 +75,7 @@ class TaskManagerViewController: SwipeTableViewController {                     
             //What will happen when pressed
             let newItem = Item(context: self.context)               // Initializating our new item as Item class item =).
             newItem.title = textField.text!                         // Getting text of item to Item().
+            self.itemFilled = newItem.title!
             newItem.done = false                                    // Getting property done of iten to Item().
             newItem.parentCategory = self.selectedCategory          // Setting category for created item to correct display in right category.
             self.itemArray.append(newItem)                          // Adding new item to itemArray.
@@ -92,10 +94,20 @@ class TaskManagerViewController: SwipeTableViewController {                     
     
     func saveItems() {
         
-        do {
-            try context.save()                                      // Do-catch block for .save because this method throws an error.
-        } catch {
-            print("Error saving context, \(error)")
+        if itemFilled != "" {
+            do {
+                try context.save()                                      // Do-catch block for .save because this method throws an error.
+            } catch {
+                print("Error saving context, \(error)")
+            }
+        } else {
+            self.context.delete(self.itemArray.last!)
+            self.itemArray.removeLast()
+            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+                try context.save()
+            } catch {
+                print(error)
+            }
         }
         tableView.reloadData()                                      // Shows data IRL on screen.
     }

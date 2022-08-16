@@ -8,8 +8,9 @@
 import UIKit
 import CoreData
 
-class CategoriesTableViewController: SwipeTableViewController{                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
+class CategoriesTableViewController: SwipeTableViewController {                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
+    var categoryFilled = ""
     var categoriesArray = [Categories]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext   //Because CoreData is in AppDelegate we need to grab data from there. We need object - UIApplication is that object. We downcast it as AppDelegate because file is AppDelegate. We use viewContext in persistentContainer attribute.
     
@@ -18,6 +19,8 @@ class CategoriesTableViewController: SwipeTableViewController{                  
         loadCategories()
         
     }
+    
+    
     //MARK: - TableView Datasource Methods
     
     // Return the number of rows for the table.
@@ -33,11 +36,24 @@ class CategoriesTableViewController: SwipeTableViewController{                  
         let cell = super.tableView(tableView, cellForRowAt: indexPath)                                          // Creating cell using super view. From SwipeTableViewController class.
         let category = categoriesArray[indexPath.row]                                                           // Creating new constant to minimize code.
         cell.textLabel?.text = category.name                                                                    // Text of categories.name goes to cell.
-        
         return cell
         
     }
     
+
+    //MARK: - Info button.
+    
+    
+    @IBAction func infoButtonPressed(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "Application instructions", message: "", preferredStyle: .alert) //Creating Alert frame
+        let action = UIAlertAction(title: "OK.", style: .default) { (action) in //Creating action
+        }
+        alert.addAction(action)                                                              // Creating button
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
     
     
     
@@ -45,12 +61,22 @@ class CategoriesTableViewController: SwipeTableViewController{                  
     
     func saveCategories() {
         
-        do {
-            try context.save()                                      // Do-catch block for .save because this method throws an error.
-        } catch {
-            print("lololoError saving context, \(error)")
+        if categoryFilled != "" {
+            do {
+                try context.save()                                      // Do-catch block for .save because this method throws an error.
+            } catch {
+                print("Error saving context, \(error)")
+            }
+        } else {
+            self.context.delete(self.categoriesArray.last!)
+            self.categoriesArray.removeLast()
+            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+                try context.save()
+            } catch {
+                print(error)
+            }
         }
-        tableView.reloadData()                                      // Shows data IRL on screen.
+        tableView.reloadData()                                      // Shows data IRL on screen
     }
     
     func loadCategories(with request: NSFetchRequest<Categories> = Categories.fetchRequest()) {            // With - external parameter, request - internal parameter. = Categories.fetchRequest() is a default value here.
@@ -83,19 +109,21 @@ class CategoriesTableViewController: SwipeTableViewController{                  
         let alert = UIAlertController(title: "Add new category", message: "", preferredStyle: .alert) //Creating Alert frame
         let action = UIAlertAction(title: "Add category", style: .default) { (action) in //Creating button "Add category"
             //What will happen when pressed
-            let newCategory = Categories(context: self.context)               // Initializating our new item as Categories class item =)
-            newCategory.name = textField.text!                         // Getting text of category to Categories()
-            self.categoriesArray.append(newCategory)                          // Adding new category to categoriesArray.
-            self.saveCategories()                                        // Call function for save categories.
+            let newCategory = Categories(context: self.context)                             // Initializating our new item as Categories class item =)
+            newCategory.name = textField.text!                                              // Getting text of category to Categories()
+            self.categoryFilled = newCategory.name!
+            self.categoriesArray.append(newCategory)                                         // Adding new category to categoriesArray.
+            self.saveCategories()                                                           // Call function for save categories.
         }
-        alert.addTextField { (alertTextField) in                    // What will be printed in text field.
-            alertTextField.placeholder = "Create new category"          // Gray text in text field.
-            textField = alertTextField                              // Store what printed in textField variably.
+        alert.addTextField { (alertTextField) in                                                    // What will be printed in text field.
+            alertTextField.placeholder = "Create new category"                               // Gray text in text field.
+            textField = alertTextField                                                           // Store what printed in textField variably.
         }
-        alert.addAction(action)                                     // Creating button "Add category".
+        alert.addAction(action)                                                                // Creating button "Add category".
         present(alert, animated: true, completion: nil)
         
     }
+    
     
     
     //MARK: - TableView Delegate Methods
@@ -113,6 +141,6 @@ class CategoriesTableViewController: SwipeTableViewController{                  
             destinationVC.selectedCategory = categoriesArray[indexPath.row]
         }
     }
+    
 }
-
 
