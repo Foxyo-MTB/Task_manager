@@ -8,8 +8,7 @@
 import UIKit
 import CoreData
 
-class TaskManagerViewController: SwipeTableViewController {                                               // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
-    
+class TaskManagerViewController: UITableViewController {                                               // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     var itemFilled = ""
     var itemArray = [Item]()
     var selectedCategory : Categories? {
@@ -24,10 +23,13 @@ class TaskManagerViewController: SwipeTableViewController {                     
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
         navigationTitleOutlet.title =  selectedCategory?.name
-        
     }
     
     @IBOutlet weak var navigationTitleOutlet: UINavigationItem!
+    
+    
+    //MARK: - outlets for customCell.
+    
     
     
     //MARK: - TableView Datasource Methods.
@@ -41,9 +43,9 @@ class TaskManagerViewController: SwipeTableViewController {                     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         let item = itemArray[indexPath.row]                                                             // Creating new constant to minimize code.
-        cell.textLabel?.text = item.title                                                               // Text of Item.title goes to cell.
+        cell.customLabelOutlet.text = item.title
         //Ternary operator ==>
         // value = condition ? valueIfTrue : valueIfFalse
         cell.accessoryType = item.done ? .checkmark : .none                                                                         // Text of categories.name goes to cell.
@@ -128,7 +130,7 @@ class TaskManagerViewController: SwipeTableViewController {                     
         tableView.reloadData()
     }
     
-    override func updateModel(at indexPath: IndexPath) {
+    func updateModel(at indexPath: IndexPath) {
         self.context.delete(self.itemArray[indexPath.row])
         self.itemArray.remove(at: indexPath.row)
         do {

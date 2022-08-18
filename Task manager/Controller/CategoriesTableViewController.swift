@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CategoriesTableViewController: SwipeTableViewController {                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
+class CategoriesTableViewController: UITableViewController /*SwipeTableViewController*/ {                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
     var categoryFilled = ""
     var categoriesArray = [Categories]()
@@ -18,9 +18,10 @@ class CategoriesTableViewController: SwipeTableViewController {                 
         super.viewDidLoad()
         loadCategories()
         
+        
     }
     
-    
+ 
     //MARK: - TableView Datasource Methods
     
     // Return the number of rows for the table.
@@ -33,20 +34,22 @@ class CategoriesTableViewController: SwipeTableViewController {                 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)                                          // Creating cell using super view. From SwipeTableViewController class.
+        //let cell = super.tableView(tableView, cellForRowAt: indexPath)                                          // Creating cell using super view. From SwipeTableViewController class.
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         let category = categoriesArray[indexPath.row]                                                           // Creating new constant to minimize code.
-        cell.textLabel?.text = category.name                                                                    // Text of categories.name goes to cell.
+        cell.customLabelOutlet.text = category.name?.maxLength(length: 20)                                      // Adding text to custom cell and limit to 20 characters.
         return cell
         
     }
     
+       
 
     //MARK: - Info button.
     
     
     @IBAction func infoButtonPressed(_ sender: UIBarButtonItem) {
         
-        let alert = UIAlertController(title: "Application instructions", message: "", preferredStyle: .alert) //Creating Alert frame
+        let alert = UIAlertController(title: InfoModel.rules, message: "", preferredStyle: .alert) //Creating Alert frame
         let action = UIAlertAction(title: "OK.", style: .default) { (action) in //Creating action
         }
         alert.addAction(action)                                                              // Creating button
@@ -91,7 +94,7 @@ class CategoriesTableViewController: SwipeTableViewController {                 
     
     //MARK: - Delete Data from Swipe.
     
-    override func updateModel(at indexPath: IndexPath) {
+     func updateModel(at indexPath: IndexPath) {
         self.context.delete(self.categoriesArray[indexPath.row])
         self.categoriesArray.remove(at: indexPath.row)
         do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
@@ -144,3 +147,19 @@ class CategoriesTableViewController: SwipeTableViewController {                 
     
 }
 
+//MARK: - Extenstion to limit maximum number of symbols in category name.
+
+extension String {
+   func maxLength(length: Int) -> String {
+       var str = self
+       let nsString = str as NSString
+       if nsString.length >= length {
+           str = nsString.substring(with:
+               NSRange(
+                location: 0,
+                length: nsString.length > length ? length : nsString.length)
+           )
+       }
+       return  str
+   }
+}

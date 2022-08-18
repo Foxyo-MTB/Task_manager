@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7404770228A00392009E5EC6 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7404770028A00392009E5EC6 /* DataModel.xcdatamodeld */; };
+		745BDB4B28AE413C00E3AB02 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745BDB4A28AE413C00E3AB02 /* CustomTableViewCell.swift */; };
 		7482F72D28A512DE0024B00A /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7482F72C28A512DE0024B00A /* CategoriesTableViewController.swift */; };
 		748819B828A6819D00A6D1D7 /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748819B728A6819D00A6D1D7 /* SwipeTableViewController.swift */; };
+		74A2A09928AE5F10008E3191 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A2A09828AE5F10008E3191 /* InfoModel.swift */; };
 		74AE5FA4286F1F1E00719A9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA3286F1F1E00719A9E /* AppDelegate.swift */; };
 		74AE5FA6286F1F1E00719A9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA5286F1F1E00719A9E /* SceneDelegate.swift */; };
 		74AE5FA8286F1F1E00719A9E /* TaskManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE5FA7286F1F1E00719A9E /* TaskManagerViewController.swift */; };
@@ -24,8 +26,10 @@
 		1062A0ED05B521071D93D8D6 /* Pods_Task_manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Task_manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C1930DC9D6BA183289037E1 /* Pods-Task manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task manager.debug.xcconfig"; path = "Target Support Files/Pods-Task manager/Pods-Task manager.debug.xcconfig"; sourceTree = "<group>"; };
 		7404770128A00392009E5EC6 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		745BDB4A28AE413C00E3AB02 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		7482F72C28A512DE0024B00A /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
 		748819B728A6819D00A6D1D7 /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
+		74A2A09828AE5F10008E3191 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
 		74AE5FA0286F1F1E00719A9E /* Task manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74AE5FA3286F1F1E00719A9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74AE5FA5286F1F1E00719A9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +68,7 @@
 				748819B728A6819D00A6D1D7 /* SwipeTableViewController.swift */,
 				7482F72C28A512DE0024B00A /* CategoriesTableViewController.swift */,
 				74AE5FA7286F1F1E00719A9E /* TaskManagerViewController.swift */,
+				745BDB4A28AE413C00E3AB02 /* CustomTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -72,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				7404770028A00392009E5EC6 /* DataModel.xcdatamodeld */,
+				74A2A09828AE5F10008E3191 /* InfoModel.swift */,
 			);
 			name = Model;
 			path = ..;
@@ -253,11 +259,13 @@
 			files = (
 				74AE5FA8286F1F1E00719A9E /* TaskManagerViewController.swift in Sources */,
 				74AE5FA4286F1F1E00719A9E /* AppDelegate.swift in Sources */,
+				745BDB4B28AE413C00E3AB02 /* CustomTableViewCell.swift in Sources */,
 				7404770228A00392009E5EC6 /* DataModel.xcdatamodeld in Sources */,
 				748819B828A6819D00A6D1D7 /* SwipeTableViewController.swift in Sources */,
 				7482F72D28A512DE0024B00A /* CategoriesTableViewController.swift in Sources */,
 				74AE5FAE286F1F1E00719A9E /* Task_manager.xcdatamodeld in Sources */,
 				74AE5FA6286F1F1E00719A9E /* SceneDelegate.swift in Sources */,
+				74A2A09928AE5F10008E3191 /* InfoModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
