@@ -104,15 +104,15 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     
     //MARK: - Delete Data from Swipe.
     
-    func updateModel(at indexPath: IndexPath) {
-        self.context.delete(self.categoriesArray[indexPath.row])
-        self.categoriesArray.remove(at: indexPath.row)
-        do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
-            try context.save()
-        } catch {
-            print(error)
-        }
-    }
+//    func updateModel(at indexPath: IndexPath) {
+//        self.context.delete(self.categoriesArray[indexPath.row])
+//        self.categoriesArray.remove(at: indexPath.row)
+//        do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+//            try context.save()
+//        } catch {
+//            print(error)
+//        }
+//    }
     
     
     //MARK: - Add New Categories
