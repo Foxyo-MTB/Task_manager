@@ -28,9 +28,6 @@ class TaskManagerViewController: UITableViewController {                        
     @IBOutlet weak var navigationTitleOutlet: UINavigationItem!
     
     
-    //MARK: - outlets for customCell.
-    
-    
     
     //MARK: - TableView Datasource Methods.
     // Return the number of rows for the table.
@@ -54,6 +51,20 @@ class TaskManagerViewController: UITableViewController {                        
         
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { action, indexPath in
+            self.context.delete(self.itemArray[indexPath.row])
+            self.itemArray.remove(at: indexPath.row)
+            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+                try self.context.save()
+                tableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
+        return [deleteAction]
+    }
+    
     //MARK: - TableView Delegate Methods.
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -72,8 +83,8 @@ class TaskManagerViewController: UITableViewController {                        
     @IBAction func addNewItem(_ sender: UIBarButtonItem) {
         
         var textField = UITextField()
-        let alert = UIAlertController(title: "Add new item", message: "", preferredStyle: .alert) //Creating Alert frame.
-        let action = UIAlertAction(title: "Add item", style: .default) { (action) in //Creating button "Add item".
+        let alert = UIAlertController(title: "Добавьте новую задачу", message: "", preferredStyle: .alert) //Creating Alert frame.
+        let action = UIAlertAction(title: "Добавьте задачу", style: .default) { (action) in //Creating button "Add item".
             //What will happen when pressed
             let newItem = Item(context: self.context)               // Initializating our new item as Item class item =).
             newItem.title = textField.text!                         // Getting text of item to Item().
@@ -84,7 +95,7 @@ class TaskManagerViewController: UITableViewController {                        
             self.saveItems()                                        // Call function for save items.
         }
         alert.addTextField { (alertTextField) in                    // What will be printed in text field.
-            alertTextField.placeholder = "Create new item"          // Gray text in text field.
+            alertTextField.placeholder = "Создайте новую задачу"          // Gray text in text field.
             textField = alertTextField                              // Store what printed in textField variably.
         }
         alert.addAction(action)                                     // Creating button "Add button".

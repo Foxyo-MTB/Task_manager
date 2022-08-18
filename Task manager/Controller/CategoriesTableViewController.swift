@@ -17,8 +17,6 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategories()
-        
-        
     }
     
  
@@ -28,7 +26,6 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return categoriesArray.count
-        
     }
     // Provide a cell object for each row.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,7 +39,20 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         
     }
     
-       
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { action, indexPath in
+            self.context.delete(self.categoriesArray[indexPath.row])
+            self.categoriesArray.remove(at: indexPath.row)
+            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+                try self.context.save()
+                tableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
+        return [deleteAction]
+    }
+
 
     //MARK: - Info button.
     
@@ -50,11 +60,10 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     @IBAction func infoButtonPressed(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: InfoModel.rules, message: "", preferredStyle: .alert) //Creating Alert frame
-        let action = UIAlertAction(title: "OK.", style: .default) { (action) in //Creating action
+        let action = UIAlertAction(title: "Понятно", style: .default) { (action) in //Creating action
         }
         alert.addAction(action)                                                              // Creating button
         present(alert, animated: true, completion: nil)
-        
         
     }
     
@@ -109,8 +118,8 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         var textField = UITextField()
-        let alert = UIAlertController(title: "Add new category", message: "", preferredStyle: .alert) //Creating Alert frame
-        let action = UIAlertAction(title: "Add category", style: .default) { (action) in //Creating button "Add category"
+        let alert = UIAlertController(title: "Добавить новую категорию", message: "", preferredStyle: .alert) //Creating Alert frame
+        let action = UIAlertAction(title: "Добавить категорию", style: .default) { (action) in //Creating button "Add category"
             //What will happen when pressed
             let newCategory = Categories(context: self.context)                             // Initializating our new item as Categories class item =)
             newCategory.name = textField.text!                                              // Getting text of category to Categories()
@@ -119,7 +128,7 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
             self.saveCategories()                                                           // Call function for save categories.
         }
         alert.addTextField { (alertTextField) in                                                    // What will be printed in text field.
-            alertTextField.placeholder = "Create new category"                               // Gray text in text field.
+            alertTextField.placeholder = "Создайте новую категорию"                               // Gray text in text field.
             textField = alertTextField                                                           // Store what printed in textField variably.
         }
         alert.addAction(action)                                                                // Creating button "Add category".

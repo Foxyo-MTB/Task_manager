@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Task Manager-->
+        <!--Категории-->
         <scene sceneID="4q4-mf-nr9">
             <objects>
                 <tableViewController id="TdY-MU-s7j" customClass="CategoriesTableViewController" customModule="Task_manager" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,8 +50,8 @@
                             <outlet property="delegate" destination="TdY-MU-s7j" id="G37-ai-hJy"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Task Manager" id="zGz-I9-KBV">
-                        <barButtonItem key="leftBarButtonItem" title="Info" id="1uc-n4-cYE">
+                    <navigationItem key="navigationItem" title="Категории" id="zGz-I9-KBV">
+                        <barButtonItem key="leftBarButtonItem" title="Инфо" id="1uc-n4-cYE">
                             <connections>
                                 <action selector="infoButtonPressed:" destination="TdY-MU-s7j" id="3z8-Ew-Dxl"/>
                             </connections>
