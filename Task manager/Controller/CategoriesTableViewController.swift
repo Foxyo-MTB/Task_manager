@@ -19,7 +19,7 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         loadCategories()
     }
     
- 
+    
     //MARK: - TableView Datasource Methods
     
     // Return the number of rows for the table.
@@ -39,9 +39,8 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         
     }
     
-    // Method that shows right swipe and do deletion.
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { action, indexPath in
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let contextItem = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
             self.context.delete(self.categoriesArray[indexPath.row])                                                // Delete from Core Data.
             self.categoriesArray.remove(at: indexPath.row)                                                          // Delete from Array.
             do {
@@ -51,10 +50,11 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
                 print(error)
             }
         }
-        return [deleteAction]
+        let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
+        return swipeActions
     }
-
-
+    
+    
     //MARK: - Info button.
     
     
@@ -104,7 +104,7 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     
     //MARK: - Delete Data from Swipe.
     
-     func updateModel(at indexPath: IndexPath) {
+    func updateModel(at indexPath: IndexPath) {
         self.context.delete(self.categoriesArray[indexPath.row])
         self.categoriesArray.remove(at: indexPath.row)
         do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
@@ -149,7 +149,6 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! TaskManagerViewController                             // Setting destination view controllew
-        
         if let indexPath = tableView.indexPathForSelectedRow   {                                        // That's how i know which category i pressed.
             destinationVC.selectedCategory = categoriesArray[indexPath.row]
         }
@@ -160,16 +159,16 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
 //MARK: - Extenstion to limit maximum number of symbols in category name.
 
 extension String {
-   func maxLength(length: Int) -> String {
-       var str = self
-       let nsString = str as NSString
-       if nsString.length >= length {
-           str = nsString.substring(with:
-               NSRange(
-                location: 0,
-                length: nsString.length > length ? length : nsString.length)
-           )
-       }
-       return  str
-   }
+    func maxLength(length: Int) -> String {
+        var str = self
+        let nsString = str as NSString
+        if nsString.length >= length {
+            str = nsString.substring(with:
+                                        NSRange(
+                                            location: 0,
+                                            length: nsString.length > length ? length : nsString.length)
+            )
+        }
+        return  str
+    }
 }

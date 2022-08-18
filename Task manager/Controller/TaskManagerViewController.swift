@@ -21,7 +21,7 @@ class TaskManagerViewController: UITableViewController {                        
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") ?? "No .plist founded") //Location of .plist file for userDefaults saving items.
         navigationTitleOutlet.title =  selectedCategory?.name
     }
     
@@ -51,18 +51,19 @@ class TaskManagerViewController: UITableViewController {                        
         
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { action, indexPath in
-            self.context.delete(self.itemArray[indexPath.row])
-            self.itemArray.remove(at: indexPath.row)
-            do {                                                      
-                try self.context.save()
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let contextItem = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+            self.context.delete(self.itemArray[indexPath.row])                                                // Delete from Core Data.
+            self.itemArray.remove(at: indexPath.row)                                                          // Delete from Array.
+            do {
+                try self.context.save()                                                                             //Renew of our Core Data.
                 tableView.reloadData()
             } catch {
                 print(error)
             }
         }
-        return [deleteAction]
+        let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
+        return swipeActions
     }
     
     //MARK: - TableView Delegate Methods.
