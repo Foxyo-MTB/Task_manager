@@ -4,7 +4,6 @@
 target 'Task manager' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-pod 'SwipeCellKit'
   # Pods for Task manager
 
 end

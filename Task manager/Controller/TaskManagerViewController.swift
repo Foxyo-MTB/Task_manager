@@ -40,9 +40,9 @@ class TaskManagerViewController: UITableViewController {                        
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
-        let item = itemArray[indexPath.row]                                                             // Creating new constant to minimize code.
-        cell.customLabelOutlet.text = item.title
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell            //Returns a reusable table-view cell object after locating it by its identifier.
+        let item = itemArray[indexPath.row]                                                                             // Creating new constant to minimize code.
+        cell.customLabelOutlet.text = item.title                                                                        // Adding text from item title to custom cell label outlet.
         //Ternary operator ==>
         // value = condition ? valueIfTrue : valueIfFalse
         cell.accessoryType = item.done ? .checkmark : .none                                                                         // Text of categories.name goes to cell.
@@ -55,7 +55,7 @@ class TaskManagerViewController: UITableViewController {                        
         let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { action, indexPath in
             self.context.delete(self.itemArray[indexPath.row])
             self.itemArray.remove(at: indexPath.row)
-            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
+            do {                                                      
                 try self.context.save()
                 tableView.reloadData()
             } catch {

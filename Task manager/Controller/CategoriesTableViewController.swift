@@ -31,20 +31,21 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Fetch a cell of the appropriate type.
-        //let cell = super.tableView(tableView, cellForRowAt: indexPath)                                          // Creating cell using super view. From SwipeTableViewController class.
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
-        let category = categoriesArray[indexPath.row]                                                           // Creating new constant to minimize code.
-        cell.customLabelOutlet.text = category.name?.maxLength(length: 20)                                      // Adding text to custom cell and limit to 20 characters.
+        //let cell = super.tableView(tableView, cellForRowAt: indexPath)                                             // Creating cell using super view. From SwipeTableViewController class. Deleted from project.
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell     // Returns a reusable table-view cell object after locating it by its identifier.
+        let category = categoriesArray[indexPath.row]                                                                // Creating new constant to minimize code.
+        cell.customLabelOutlet.text = category.name?.maxLength(length: 20)                                           // Adding text to custom cell and limit to 20 characters.
         return cell
         
     }
     
+    // Method that shows right swipe and do deletion.
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { action, indexPath in
-            self.context.delete(self.categoriesArray[indexPath.row])
-            self.categoriesArray.remove(at: indexPath.row)
-            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
-                try self.context.save()
+            self.context.delete(self.categoriesArray[indexPath.row])                                                // Delete from Core Data.
+            self.categoriesArray.remove(at: indexPath.row)                                                          // Delete from Array.
+            do {
+                try self.context.save()                                                                             //Renew of our Core Data.
                 tableView.reloadData()
             } catch {
                 print(error)
@@ -122,8 +123,8 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         let action = UIAlertAction(title: "Добавить категорию", style: .default) { (action) in //Creating button "Add category"
             //What will happen when pressed
             let newCategory = Categories(context: self.context)                             // Initializating our new item as Categories class item =)
-            newCategory.name = textField.text!                                              // Getting text of category to Categories()
-            self.categoryFilled = newCategory.name!
+            newCategory.name = textField.text!.maxLength(length: 20)                        // Getting text of category to Categories()
+            self.categoryFilled = newCategory.name!                                         // Added to delete empty categories created.
             self.categoriesArray.append(newCategory)                                         // Adding new category to categoriesArray.
             self.saveCategories()                                                           // Call function for save categories.
         }
