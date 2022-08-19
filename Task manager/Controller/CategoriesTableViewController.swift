@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CategoriesTableViewController: UITableViewController /*SwipeTableViewController*/ {                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
+class CategoriesTableViewController: UITableViewController {                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
     var categoryFilled = ""
     var categoriesArray = [Categories]()
@@ -18,6 +18,8 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         super.viewDidLoad()
         loadCategories()
     }
+    
+    
     
     
     //MARK: - TableView Datasource Methods
@@ -30,11 +32,13 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
     // Provide a cell object for each row.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        
+        
         // Fetch a cell of the appropriate type.
         //let cell = super.tableView(tableView, cellForRowAt: indexPath)                                             // Creating cell using super view. From SwipeTableViewController class. Deleted from project.
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell     // Returns a reusable table-view cell object after locating it by its identifier.
         let category = categoriesArray[indexPath.row]                                                                // Creating new constant to minimize code.
-        cell.customLabelOutlet.text = category.name?.maxLength(length: 20)                                           // Adding text to custom cell and limit to 20 characters.
+        cell.customLabelOutlet.text = category.name                                                                  // Adding text to custom cell and limit to 20 characters.
         return cell
         
     }
@@ -102,19 +106,6 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         tableView.reloadData()
     }
     
-    //MARK: - Delete Data from Swipe.
-    
-//    func updateModel(at indexPath: IndexPath) {
-//        self.context.delete(self.categoriesArray[indexPath.row])
-//        self.categoriesArray.remove(at: indexPath.row)
-//        do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
-//            try context.save()
-//        } catch {
-//            print(error)
-//        }
-//    }
-    
-    
     //MARK: - Add New Categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -123,12 +114,13 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
         let action = UIAlertAction(title: "Добавить категорию", style: .default) { (action) in //Creating button "Add category"
             //What will happen when pressed
             let newCategory = Categories(context: self.context)                             // Initializating our new item as Categories class item =)
-            newCategory.name = textField.text!.maxLength(length: 20)                        // Getting text of category to Categories()
+            newCategory.name = textField.text                                               // Getting text of category to Categories()
             self.categoryFilled = newCategory.name!                                         // Added to delete empty categories created.
             self.categoriesArray.append(newCategory)                                         // Adding new category to categoriesArray.
             self.saveCategories()                                                           // Call function for save categories.
         }
         alert.addTextField { (alertTextField) in                                                    // What will be printed in text field.
+            alertTextField.delegate = self
             alertTextField.placeholder = "Создайте новую категорию"                               // Gray text in text field.
             textField = alertTextField                                                           // Store what printed in textField variably.
         }
@@ -158,17 +150,14 @@ class CategoriesTableViewController: UITableViewController /*SwipeTableViewContr
 
 //MARK: - Extenstion to limit maximum number of symbols in category name.
 
-extension String {
-    func maxLength(length: Int) -> String {
-        var str = self
-        let nsString = str as NSString
-        if nsString.length >= length {
-            str = nsString.substring(with:
-                                        NSRange(
-                                            location: 0,
-                                            length: nsString.length > length ? length : nsString.length)
-            )
+extension CategoriesTableViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if range.length + range.location > textField.text!.count {
+            return false
         }
-        return  str
+        let newString = (textField.text!) + string
+        return newString.count <= 20
     }
 }
+

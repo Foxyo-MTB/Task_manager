@@ -141,16 +141,6 @@ class TaskManagerViewController: UITableViewController {                        
         }
         tableView.reloadData()
     }
-    
-    func updateModel(at indexPath: IndexPath) {
-        self.context.delete(self.itemArray[indexPath.row])
-        self.itemArray.remove(at: indexPath.row)
-        do {
-            try context.save()
-        } catch {
-            print(error)
-        }
-    }
 }
 
 //MARK: - Search bar methods.
