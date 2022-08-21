@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 class TaskManagerViewController: UITableViewController {                                               // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
-    var itemFilled = ""
+    
     var itemArray = [Item]()
     var selectedCategory : Categories? {
         didSet{
@@ -89,18 +89,29 @@ class TaskManagerViewController: UITableViewController {                        
             //What will happen when pressed
             let newItem = Item(context: self.context)               // Initializating our new item as Item class item =).
             newItem.title = textField.text!                         // Getting text of item to Item().
-            self.itemFilled = newItem.title!
             newItem.done = false                                    // Getting property done of iten to Item().
             newItem.parentCategory = self.selectedCategory          // Setting category for created item to correct display in right category.
             self.itemArray.append(newItem)                          // Adding new item to itemArray.
             self.saveItems()                                        // Call function for save items.
         }
+        action.isEnabled = false                                    // Making button grey, until something printed.
         alert.addTextField { (alertTextField) in                    // What will be printed in text field.
+            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: OperationQueue.main, using:
+                                                    {_ in
+                // Being in this block means that something fired the UITextFieldTextDidChange notification.
+                // Access the textField object from alertController.addTextField(configurationHandler:) above and get the character count of its non whitespace characters
+                let textCount = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0
+                let textIsNotEmpty = textCount > 0
+                
+                // If the text contains non whitespace characters, enable the OK Button
+                action.isEnabled = textIsNotEmpty
+                
+            })
+            alert.addAction(action)                                     // Creating button "Add button".
+            self.present(alert, animated: true, completion: nil)             // Show adding window.
             alertTextField.placeholder = "Создайте новую задачу"          // Gray text in text field.
             textField = alertTextField                              // Store what printed in textField variably.
         }
-        alert.addAction(action)                                     // Creating button "Add button".
-        present(alert, animated: true, completion: nil)             // Show adding window.
         
     }
     
@@ -108,20 +119,10 @@ class TaskManagerViewController: UITableViewController {                        
     
     func saveItems() {
         
-        if itemFilled != "" {
-            do {
-                try context.save()                                      // Do-catch block for .save because this method throws an error.
-            } catch {
-                print("Error saving context, \(error)")
-            }
-        } else {
-            self.context.delete(self.itemArray.last!)
-            self.itemArray.removeLast()
-            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
-                try context.save()
-            } catch {
-                print(error)
-            }
+        do {
+            try context.save()                                      // Do-catch block for .save because this method throws an error.
+        } catch {
+            print("Error saving context, \(error)")
         }
         tableView.reloadData()                                      // Shows data IRL on screen.
     }
@@ -167,5 +168,9 @@ extension TaskManagerViewController: UISearchBarDelegate {
         }
     }
 }
+
+//MARK: - Extension for disabled button until empty field.
+
+
 
 

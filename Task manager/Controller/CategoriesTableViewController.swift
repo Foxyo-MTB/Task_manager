@@ -10,7 +10,6 @@ import CoreData
 
 class CategoriesTableViewController: UITableViewController {                  // When we created super class SwipeTableViewCOntroller we can change declaration from UITableViewController to our super class.
     
-    var categoryFilled = ""
     var categoriesArray = [Categories]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext   //Because CoreData is in AppDelegate we need to grab data from there. We need object - UIApplication is that object. We downcast it as AppDelegate because file is AppDelegate. We use viewContext in persistentContainer attribute.
     
@@ -78,21 +77,11 @@ class CategoriesTableViewController: UITableViewController {                  //
     
     func saveCategories() {
         
-        if categoryFilled != "" {
             do {
                 try context.save()                                      // Do-catch block for .save because this method throws an error.
             } catch {
                 print("Error saving context, \(error)")
             }
-        } else {
-            self.context.delete(self.categoriesArray.last!)
-            self.categoriesArray.removeLast()
-            do {                                                        // method saveCategories() doesn't work. Error causes tableView.ReloadData(). Reason of this error is unknown. Maybe swipe is reloading data by itself.
-                try context.save()
-            } catch {
-                print(error)
-            }
-        }
         tableView.reloadData()                                      // Shows data IRL on screen
     }
     
@@ -115,11 +104,22 @@ class CategoriesTableViewController: UITableViewController {                  //
             //What will happen when pressed
             let newCategory = Categories(context: self.context)                             // Initializating our new item as Categories class item =)
             newCategory.name = textField.text                                               // Getting text of category to Categories()
-            self.categoryFilled = newCategory.name!                                         // Added to delete empty categories created.
             self.categoriesArray.append(newCategory)                                         // Adding new category to categoriesArray.
             self.saveCategories()                                                           // Call function for save categories.
         }
+        action.isEnabled = false
         alert.addTextField { (alertTextField) in                                                    // What will be printed in text field.
+            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: OperationQueue.main, using:
+                                                    {_ in
+                // Being in this block means that something fired the UITextFieldTextDidChange notification.
+                // Access the textField object from alertController.addTextField(configurationHandler:) above and get the character count of its non whitespace characters
+                let textCount = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0
+                let textIsNotEmpty = textCount > 0
+                
+                // If the text contains non whitespace characters, enable the OK Button
+                action.isEnabled = textIsNotEmpty
+                
+            })
             alertTextField.delegate = self
             alertTextField.placeholder = "Создайте новую категорию"                               // Gray text in text field.
             textField = alertTextField                                                           // Store what printed in textField variably.
