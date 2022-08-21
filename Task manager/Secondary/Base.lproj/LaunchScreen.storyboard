@@ -24,16 +24,16 @@
                                 <rect key="frame" x="8" y="44" width="420" height="848"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8uh-yN-hv2">
-                                        <rect key="frame" x="91.333333333333329" y="386" width="237.66666666666669" height="76.333333333333314"/>
+                                        <rect key="frame" x="102.33333333333333" y="386" width="215.33333333333337" height="76.333333333333314"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phX-uh-NaI">
-                                                <rect key="frame" x="0.0" y="0.0" width="237.66666666666666" height="48"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Задачничек" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phX-uh-NaI">
+                                                <rect key="frame" x="0.0" y="0.0" width="215.33333333333334" height="48"/>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="40"/>
                                                 <color key="textColor" name="LaunchScreenTextColor"/>
                                                 <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by Foxyo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqh-Cd-LGJ">
-                                                <rect key="frame" x="169.66666666666669" y="56.000000000000007" width="68" height="20.333333333333336"/>
+                                                <rect key="frame" x="147.33333333333337" y="56.000000000000007" width="68" height="20.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" name="LaunchScreenTextColor"/>
                                                 <nil key="highlightedColor"/>
