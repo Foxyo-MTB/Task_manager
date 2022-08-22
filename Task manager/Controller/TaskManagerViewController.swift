@@ -111,6 +111,8 @@ class TaskManagerViewController: UITableViewController {                        
             self.present(alert, animated: true, completion: nil)             // Show adding window.
             alertTextField.placeholder = "Создайте новую задачу"          // Gray text in text field.
             textField = alertTextField                              // Store what printed in textField variably.
+            textField.autocapitalizationType = .sentences                                        // Making First letter capital.
+            
         }
         
     }

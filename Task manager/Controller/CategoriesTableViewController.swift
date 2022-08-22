@@ -77,11 +77,11 @@ class CategoriesTableViewController: UITableViewController {                  //
     
     func saveCategories() {
         
-            do {
-                try context.save()                                      // Do-catch block for .save because this method throws an error.
-            } catch {
-                print("Error saving context, \(error)")
-            }
+        do {
+            try context.save()                                      // Do-catch block for .save because this method throws an error.
+        } catch {
+            print("Error saving context, \(error)")
+        }
         tableView.reloadData()                                      // Shows data IRL on screen
     }
     
@@ -111,18 +111,18 @@ class CategoriesTableViewController: UITableViewController {                  //
         alert.addTextField { (alertTextField) in                                                    // What will be printed in text field.
             NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alertTextField, queue: OperationQueue.main, using:
                                                     {_ in
+                alertTextField.delegate = self
                 // Being in this block means that something fired the UITextFieldTextDidChange notification.
                 // Access the textField object from alertController.addTextField(configurationHandler:) above and get the character count of its non whitespace characters
-                let textCount = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0
+                let textCount = alertTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0
                 let textIsNotEmpty = textCount > 0
-                
                 // If the text contains non whitespace characters, enable the OK Button
                 action.isEnabled = textIsNotEmpty
                 
             })
-            alertTextField.delegate = self
             alertTextField.placeholder = "Создайте новую категорию"                               // Gray text in text field.
             textField = alertTextField                                                           // Store what printed in textField variably.
+            textField.autocapitalizationType = .sentences                                        // Making First letter capital.
         }
         alert.addAction(action)                                                                // Creating button "Add category".
         present(alert, animated: true, completion: nil)
