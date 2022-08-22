@@ -46,7 +46,7 @@ class TaskManagerViewController: UITableViewController {                        
         //Ternary operator ==>
         // value = condition ? valueIfTrue : valueIfFalse
         cell.accessoryType = item.done ? .checkmark : .none                                                                         // Text of categories.name goes to cell.
-        
+        cell.selectionStyle = .none
         return cell
         
     }
@@ -75,7 +75,7 @@ class TaskManagerViewController: UITableViewController {                        
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done                          //Reversing for check on/off.
         saveItems()                                                                             // Calling function to save data.
-        tableView.deselectRow(at: indexPath, animated: true)                                    // deselect cell after click on it.
+        //tableView.deselectRow(at: indexPath, animated: true)                                    // deselect cell after click on it.
         
     }
     
@@ -112,7 +112,8 @@ class TaskManagerViewController: UITableViewController {                        
             alertTextField.placeholder = "Создайте новую задачу"          // Gray text in text field.
             textField = alertTextField                              // Store what printed in textField variably.
             textField.autocapitalizationType = .sentences                                        // Making First letter capital.
-            
+            let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
         }
         
     }

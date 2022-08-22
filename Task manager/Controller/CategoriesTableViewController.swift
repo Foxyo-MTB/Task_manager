@@ -127,6 +127,10 @@ class CategoriesTableViewController: UITableViewController {                  //
         alert.addAction(action)                                                                // Creating button "Add category".
         present(alert, animated: true, completion: nil)
         
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        
     }
     
     
