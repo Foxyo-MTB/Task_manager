@@ -12,7 +12,7 @@ class TaskManagerViewController: UITableViewController {                        
     
     var itemArray = [Item]()
     var selectedCategory : Categories? {
-        didSet{
+        didSet {
             loadItems()
         }
     }

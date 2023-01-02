@@ -149,11 +149,9 @@ class CategoriesTableViewController: UITableViewController {                  //
             destinationVC.selectedCategory = categoriesArray[indexPath.row]
         }
     }
-    
 }
 
 //MARK: - Extenstion to limit maximum number of symbols in category name.
-
 extension CategoriesTableViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -164,4 +162,5 @@ extension CategoriesTableViewController: UITextFieldDelegate {
         return newString.count <= 20
     }
 }
+
 
